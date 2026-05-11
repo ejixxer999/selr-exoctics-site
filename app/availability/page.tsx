@@ -91,8 +91,8 @@ return (
               <span><span className="mr-2 inline-block h-3 w-3 bg-[#3a2a1a]" /> Unavailable</span>
             </div>
           </div>
-
-          <div className="grid grid-cols-7 border-l border-t border-[#b9975b]/20">
+        <div className="overflow-x-auto">
+          <div className="grid min-w-180 grid-cols-7 border-l border-t border-[#b9975b]/20">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
               <div key={day} className="border-b border-r border-[#b9975b]/20 p-3 text-center text-xs uppercase tracking-[0.2em] text-[#b9975b]">
                 {day}
@@ -106,7 +106,7 @@ return (
             {days.map((day) => {
               const dateString = toDateString(day);
               const isUnavailable = bookings?.some((booking) => isDateInsideBooking(dateString, booking));
-
+              
               return (
                 <div key={dateString} className="min-h-24 border-b border-r border-[#b9975b]/20 p-3">
                   <p className="text-lg text-[#f3eadb]">{day.getDate()}</p>
@@ -121,10 +121,11 @@ return (
                   )}
                 </div>
                 );
-            })}
+              })}
           </div>
         </div>
       </div>
+    </div>
     </section>
   );
 }

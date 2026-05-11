@@ -8,10 +8,10 @@ export default function HomePage() {
       <section className="relative flex min-h-[85vh] items-center border-b border-[#b9975b]/20 bg-[radial-gradient(circle_at_top,#2a2118,#0f0c08_55%)] px-6">
         <div className="mx-auto max-w-7xl">
           <p className="text-sm uppercase tracking-[0.45em] text-[#b9975b]">Classic Motorcar Experiences</p>
-          <h1 className="mt-6 max-w-5xl text-5xl font-light leading-tight tracking-wide text-[#f3eadb] md:text-7xl">
+          <h1 className="mt-6 max-w-5xl text-4xl font-light leading-tight tracking-wide text-[#f3eadb] sm:text-5xl md:text-7xl">
             Distinguished classic car rentals for unforgettable arrivals.
           </h1>
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-[#efe3cf]/70">
+          <p className="relative flex min-h-[75vh] items-center border-b border-[#b9975b]/20 bg-[radial-gradient(circle_at_top,#2a2118,#0f0c08_55%)] px-4 py-16 md:min-h-[85vh] md:px-6">
             SELR Exotics provides timeless vehicles for weddings, photoshoots, video productions, private events, and chauffeured experiences.
           </p>
 
