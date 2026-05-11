@@ -8,7 +8,7 @@ export default function Footer() {
                     Classic and Exoctic automotive experiences for weddings, private events, editorials, and cinematic productions.
                     </p>
                 </div>
-                <p className="text-sm text-[#efe3cf]/50">SELR Exoctics. All rights reserved</p>
+                <p className="text-sm text-[#efe3cf]/50">© {new Date().getFullYear()}SELR Exoctics. All rights reserved</p>
             </div>
         </footer>
     )
