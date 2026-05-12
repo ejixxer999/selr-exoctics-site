@@ -2,17 +2,21 @@
 import { supabase } from '@/lib/supabase';
 import { updateBookingStatus } from './actions';
 
-interface SearchParams {
-  password?: string;
+interface PageProps {
+  searchParams: Promise<{
+    password?: string;
+  }>;
 }
 
-export default async function AdminBookingsPage({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
-  const isAdmin = searchParams.password === process.env.ADMIN_PASSWORD;
-  const passwordWasSubmitted = Boolean(searchParams.password)
+export default async function AdminBookingsPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+
+  const submittedPassword = params.password || "";
+  const correctPassword = process.env.ADMIN_PASSWORD || "";
+
+  const passwordWasSubmitted = Boolean(submittedPassword);
+  const isAdmin = submittedPassword === correctPassword;
+ 
 
   if (!isAdmin) {
     return (
@@ -111,7 +115,7 @@ return (
                   <form action={updateBookingStatus}>
                     <input type="hidden" name="booking_id" value={booking.id} />
                     <input type="hidden" name="status" value="approved" />
-                    <input type="hidden" name="admin_password" value={searchParams.password} />
+                    <input type="hidden" name="admin_password" value={submittedPassword} />
                     <button className="w-full border border-[#b9975b] bg-[#b9975b] px-5 py-3 text-sm uppercase tracking-[0.18em] text-[#0f0c08] transition hover:bg-transparent hover:text-[#b9975b]">
                       Approve
                     </button>
@@ -120,7 +124,7 @@ return (
                   <form action={updateBookingStatus}>
                     <input type="hidden" name="booking_id" value={booking.id} />
                     <input type="hidden" name="status" value="declined" />
-                    <input type="hidden" name="admin_password" value={searchParams.password} />
+                    <input type="hidden" name="admin_password" value={submittedPassword} />
                     <button className="w-full border border-red-400/50 px-5 py-3 text-sm uppercase tracking-[0.18em] text-red-200 transition hover:bg-red-950/30">
                       Decline
                     </button>
@@ -129,7 +133,7 @@ return (
                   <form action={updateBookingStatus}>
                     <input type="hidden" name="booking_id" value={booking.id} />
                     <input type="hidden" name="status" value="cancelled" />
-                    <input type="hidden" name="admin_password" value={searchParams.password} />
+                    <input type="hidden" name="admin_password" value={submittedPassword} />
                     <button className="w-full border border-[#efe3cf]/20 px-5 py-3 text-sm uppercase tracking-[0.18em] text-[#efe3cf]/50 transition hover:border-[#efe3cf]/50">
                       Cancel
                     </button>
