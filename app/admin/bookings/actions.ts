@@ -6,6 +6,8 @@ import { supabase } from '@/lib/supabase';
 export async function updateBookingStatus(formData: FormData) {
   const bookingId = String(formData.get('booking_id'));
   const status = String(formData.get('status'));
+  const adminNote = String(formData.get('admin_note') || '');
+const processStage = String(formData.get('process_stage') || '');
   const adminPassword = String(formData.get('admin_password'));
 
   if (!bookingId || !status) {
@@ -22,7 +24,11 @@ export async function updateBookingStatus(formData: FormData) {
 
   const { error } = await supabase
     .from('bookings')
-    .update({ status })
+    .update({ 
+      status,
+      admin_note: adminNote,
+      process_stage: processStage,
+     })
     .eq('id', bookingId);
 
   if (error) {
