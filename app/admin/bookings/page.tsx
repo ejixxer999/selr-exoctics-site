@@ -83,6 +83,17 @@ export default async function AdminBookingsPage({ searchParams }: PageProps) {
       </p>
     );
   }
+  const activeBookings =
+  bookings?.filter(
+    (booking: any) =>
+      booking.status === 'pending' || booking.status === 'approved'
+  ) || [];
+
+const archivedBookings =
+  bookings?.filter(
+    (booking: any) =>
+      booking.status === 'declined' || booking.status === 'cancelled'
+  ) || [];
   return (
     <section className="px-4 py-16 md:px-6 md:py-24">
       <div className="mx-auto max-w-7xl">
@@ -98,7 +109,7 @@ export default async function AdminBookingsPage({ searchParams }: PageProps) {
         </p>
 
         <div className="mt-12 grid gap-6">
-          {bookings?.map((booking: any) => (
+          {activeBookings.map((booking: any) => (
             <article
               key={booking.id}
               className="border border-[#b9975b]/30 bg-[#15120e] p-5 md:p-8"
@@ -258,6 +269,72 @@ export default async function AdminBookingsPage({ searchParams }: PageProps) {
             </article>
           ))}
         </div>
+        <div className="mt-20">
+  <div className="flex items-center justify-between gap-4">
+    <div>
+      <p className="text-sm uppercase tracking-[0.35em] text-[#b9975b]">
+        Archive
+      </p>
+
+      <h2 className="mt-3 text-3xl font-light text-[#f3eadb]">
+        Declined & Cancelled
+      </h2>
+    </div>
+
+    <div className="border border-[#b9975b]/30 px-4 py-2 text-sm text-[#efe3cf]/60">
+      {archivedBookings.length} Archived
+    </div>
+  </div>
+
+  <div className="mt-8 grid gap-6">
+    {archivedBookings.map((booking: any) => (
+      <article
+        key={booking.id}
+        className="border border-[#b9975b]/20 bg-[#120f0c] opacity-80"
+      >
+        <div className="p-5 md:p-8">
+          <div className="flex flex-wrap items-center gap-3">
+            <h3 className="text-2xl font-light text-[#f3eadb]">
+              {booking.customer_name}
+            </h3>
+
+            <span className="border border-red-400/30 px-3 py-1 text-xs uppercase tracking-[0.18em] text-red-200">
+              {booking.status}
+            </span>
+          </div>
+
+          <div className="mt-5 grid gap-2 text-sm leading-6 text-[#efe3cf]/60 md:grid-cols-2">
+            <p>
+              <span className="text-[#b9975b]">Vehicle:</span>{' '}
+              {booking.vehicles?.name}
+            </p>
+
+            <p>
+              <span className="text-[#b9975b]">Dates:</span>{' '}
+              {booking.start_date} to {booking.end_date}
+            </p>
+
+            <p>
+              <span className="text-[#b9975b]">Email:</span>{' '}
+              {booking.customer_email}
+            </p>
+
+            <p>
+              <span className="text-[#b9975b]">Stage:</span>{' '}
+              {booking.process_stage || 'Archived'}
+            </p>
+          </div>
+
+          {booking.admin_note && (
+            <p className="mt-5 border-l border-[#b9975b]/30 pl-4 leading-7 text-[#efe3cf]/55">
+              {booking.admin_note}
+            </p>
+          )}
+        </div>
+      </article>
+    ))}
+  </div>
+</div>
       </div>
     </section>
   );
