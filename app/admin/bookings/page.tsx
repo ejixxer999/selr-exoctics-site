@@ -12,6 +12,7 @@ export default async function AdminBookingsPage({
   searchParams: SearchParams;
 }) {
   const isAdmin = searchParams.password === process.env.ADMIN_PASSWORD;
+  const passwordWasSubmitted = Boolean(searchParams.password)
 
   if (!isAdmin) {
     return (
@@ -20,7 +21,11 @@ export default async function AdminBookingsPage({
           <p className="text-sm uppercase tracking-[0.35em] text-[#b9975b]">Admin</p>
           <h1 className="mt-4 text-4xl font-light text-[#f3eadb]">Booking Access</h1>
           <p className="mt-4 text-[#efe3cf]/65">Enter the admin password to view booking requests.</p>
-
+          {passwordWasSubmitted && (
+            <p className='mt-4 border border-red-500/40 bg-red-950/30 p-4 text-sm text-red-200'>
+              Password incorrect. Please try again.
+            </p>
+          )}
           <form className="mt-8">
             <input
               name="password"
