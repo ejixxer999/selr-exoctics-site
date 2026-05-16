@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import { cookies } from 'next/headers';
-import { adminLogin, adminLogout } from './actions';
+import Link from "next/link";
+import { cookies } from "next/headers";
+import { adminLogin, adminLogout } from "./actions";
 
 interface AdminPageProps {
   searchParams: Promise<{
@@ -13,7 +13,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const cookieStore = await cookies();
 
   const isAdmin =
-    cookieStore.get('selr_admin_session')?.value ===
+    cookieStore.get("selr_admin_session")?.value ===
     process.env.ADMIN_SESSION_SECRET;
 
   if (!isAdmin) {
@@ -32,7 +32,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             Enter your admin password to manage bookings and vehicles.
           </p>
 
-          {params.error === 'incorrect' && (
+          {params.error === "incorrect" && (
             <p className="mt-4 border border-red-500/40 bg-red-950/30 p-4 text-sm text-red-200">
               Password incorrect. Please try again.
             </p>
@@ -86,11 +86,21 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             href="/admin/vehicles/new"
             className="border border-[#b9975b]/30 bg-[#15120e] p-6 transition hover:border-[#b9975b]"
           >
-            <h2 className="text-2xl font-light text-[#f3eadb]">
-              Add Vehicle
-            </h2>
+            <h2 className="text-2xl font-light text-[#f3eadb]">Add Vehicle</h2>
             <p className="mt-3 text-[#efe3cf]/60">
               Add your cars or partner-owned vehicles.
+            </p>
+          </Link>
+          
+          <Link
+            href="/admin/vehicles/images"
+            className="border border-[#b9975b]/30 bg-[#15120e] p-6 transition hover:border-[#b9975b]"
+          >
+            <h2 className="text-2xl font-light text-[#f3eadb]">
+              Add Vehicle Images
+            </h2>
+            <p className="mt-3 text-[#efe3cf]/60">
+              Select an existing vehicle and upload more photos.
             </p>
           </Link>
         </div>
