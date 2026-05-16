@@ -1,7 +1,7 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 interface VehiclePageProps {
   params: Promise<{
@@ -13,10 +13,10 @@ export default async function VehicleDetailPage({ params }: VehiclePageProps) {
   const { slug } = await params;
 
   const { data: vehicle, error } = await supabase
-    .from('vehicles')
-    .select('*')
-    .eq('slug', slug)
-    .eq('active', true)
+    .from("vehicles")
+    .select("*")
+    .eq("slug", slug)
+    .eq("active", true)
     .single();
 
   if (error || !vehicle) {
@@ -26,18 +26,41 @@ export default async function VehicleDetailPage({ params }: VehiclePageProps) {
   return (
     <section className="px-6 py-24">
       <div className="mx-auto max-w-7xl">
-        <Link href="/fleet" className="text-sm uppercase tracking-[0.25em] text-[#b9975b]">
+        <Link
+          href="/fleet"
+          className="text-sm uppercase tracking-[0.25em] text-[#b9975b]"
+        >
           ← Back to Fleet
         </Link>
 
         <div className="mt-10 grid gap-12 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="relative min-h-125 border border-[#b9975b]/30">
-            <Image
-              src={vehicle.image_url || '/placeholder-car.jpg'}
-              alt={vehicle.name}
-              fill
-              className="object-cover"
-            />
+          <div className="grid gap-4">
+            <div className="relative min-h-125 border border-[#b9975b]/30">
+              <Image
+                src={vehicle.image_url || "/placeholder-car.jpg"}
+                alt={vehicle.name}
+                fill
+                className="object-cover"
+              />
+            </div>
+
+            {vehicle.gallery_images?.length > 0 && (
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                {vehicle.gallery_images.map((image: string) => (
+                  <div
+                    key={image}
+                    className="relative min-h-45 border border-[#b9975b]/20"
+                  >
+                    <Image
+                      src={image}
+                      alt={vehicle.name}
+                      fill
+                      className="object-cover transition duration-300 hover:scale-[1.02]"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="border border-[#b9975b]/30 bg-[#15120e] p-8 md:p-10">
@@ -48,7 +71,9 @@ export default async function VehicleDetailPage({ params }: VehiclePageProps) {
               {vehicle.name}
             </h1>
             <p className="mt-4 text-lg text-[#efe3cf]/70">{vehicle.subtitle}</p>
-            <p className="mt-8 leading-8 text-[#efe3cf]/65">{vehicle.description}</p>
+            <p className="mt-8 leading-8 text-[#efe3cf]/65">
+              {vehicle.description}
+            </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
               {vehicle.features?.map((feature: string) => (
