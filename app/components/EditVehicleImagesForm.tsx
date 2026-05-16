@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
-import Image from "next/image";
+
 
 interface EditVehicleImagesFormProps {
   vehicleId: string;
@@ -132,9 +132,11 @@ export default function EditVehicleImagesForm({
           {galleryImages.map((image) => (
             <div
               key={image}
-              className="relative h-48 overflow-hidden border border-[#b9975b]/20"
+              className="relative h-48 overflow-hidden border border-[#b9975b]/20 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${image})`,
+              }}
             >
-              <Image src={image} alt="Vehicle" fill className="object-cover" />
               <button
                 type="button"
                 onClick={() => makePrimaryImage(image)}
