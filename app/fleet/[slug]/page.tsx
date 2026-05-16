@@ -35,14 +35,13 @@ export default async function VehicleDetailPage({ params }: VehiclePageProps) {
 
         <div className="mt-10 grid gap-12 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="grid gap-4">
-            <div className="relative min-h-125 border border-[#b9975b]/30">
-              <Image
-                src={vehicle.image_url || "/placeholder-car.jpg"}
-                alt={vehicle.name}
-                fill
-                className="object-cover"
-              />
-            </div>
+            <div
+              className="min-h-125 border border-[#b9975b]/30 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${vehicle.image_url || "/placeholder-car.jpg"})`,
+              }}
+              aria-label={vehicle.name}
+            />
 
             {vehicle.gallery_images?.length > 0 && (
               <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
