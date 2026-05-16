@@ -65,6 +65,7 @@ export default async function AddImagesToVehiclePage({ params }: PageProps) {
         <EditVehicleImagesForm
           vehicleId={vehicle.id}
           existingImages={vehicle.gallery_images || []}
+          currentMainImage={vehicle.image_url || ""}
         />
       </div>
     </section>

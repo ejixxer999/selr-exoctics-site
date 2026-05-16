@@ -7,15 +7,18 @@ import Image from "next/image";
 interface EditVehicleImagesFormProps {
   vehicleId: string;
   existingImages: string[];
+  currentMainImage?: string;
 }
 
 export default function EditVehicleImagesForm({
   vehicleId,
   existingImages,
+  currentMainImage,
 }: EditVehicleImagesFormProps) {
   const [galleryImages, setGalleryImages] = useState(existingImages || []);
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [mainImage, setMainImage] = useState(currentMainImage || "");
 
   async function uploadFiles(files: File[]) {
     if (files.length === 0) return;
@@ -63,6 +66,21 @@ export default function EditVehicleImagesForm({
     setGalleryImages(updatedGallery);
     setUploading(false);
     setSuccess(true);
+  }
+  async function makePrimaryImage(image: string) {
+    const { error } = await supabase
+      .from("vehicles")
+      .update({
+        image_url: image,
+      })
+      .eq("id", vehicleId);
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    setMainImage(image);
   }
 
   return (
@@ -117,6 +135,13 @@ export default function EditVehicleImagesForm({
               className="relative h-48 overflow-hidden border border-[#b9975b]/20"
             >
               <Image src={image} alt="Vehicle" fill className="object-cover" />
+              <button
+                type="button"
+                onClick={() => makePrimaryImage(image)}
+                className="absolute bottom-2 left-2 right-2 bg-black/70 px-3 py-2 text-xs uppercase tracking-[0.18em] text-[#f3eadb]"
+              >
+                {mainImage === image ? "Primary Image" : "Make Primary"}
+              </button>
             </div>
           ))}
         </div>
