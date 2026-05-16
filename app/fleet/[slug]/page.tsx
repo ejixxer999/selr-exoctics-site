@@ -49,15 +49,10 @@ export default async function VehicleDetailPage({ params }: VehiclePageProps) {
                 {vehicle.gallery_images.map((image: string) => (
                   <div
                     key={image}
-                    className="relative min-h-45 border border-[#b9975b]/20"
-                  >
-                    <Image
-                      src={image}
-                      alt={vehicle.name}
-                      fill
-                      className="object-cover transition duration-300 hover:scale-[1.02]"
-                    />
-                  </div>
+                    className="min-h-45 border border-[#b9975b]/20 bg-cover bg-center"
+                    style={{ backgroundImage: `url(${image})` }}
+                    aria-label={vehicle.name}
+                  />
                 ))}
               </div>
             )}
