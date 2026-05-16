@@ -4,16 +4,18 @@ import { notFound } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 
 interface VehiclePageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default async function VehicleDetailPage({ params }: VehiclePageProps) {
+  const { slug } = await params;
+
   const { data: vehicle, error } = await supabase
     .from('vehicles')
     .select('*')
-    .eq('slug', params.slug)
+    .eq('slug', slug)
     .eq('active', true)
     .single();
 
@@ -79,3 +81,20 @@ export default async function VehicleDetailPage({ params }: VehiclePageProps) {
     </section>
   );
 }
+
+// interface PageProps {
+//   params: Promise<{
+//     slug: string;
+//   }>;
+// }
+
+// export default async function VehicleDetailPage({ params }: PageProps) {
+//   const { slug } = await params;
+
+//   return (
+//     <section className="px-6 py-24">
+//       <h1 className="text-5xl text-white">Dynamic Route Works</h1>
+//       <p className="mt-4 text-white">Slug: {slug}</p>
+//     </section>
+//   );
+// }
